@@ -1,0 +1,139 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{interval}
+\usepackage{amssymb}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{ICN Written Assignment 2}
+\author{Student ID: b10201054}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+\begin{enumerate}
+    \item [(a)] 
+        The fowarding table is:
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|l|l|}
+            \hline
+                Destination Address Range & Link Interface \\ \hline
+                11100000 00 & 0 \\ \hline
+                11100000 01000000 & 1 \\ \hline
+                11100000  & 2 \\ \hline
+                11100001 0 & 2 \\ \hline
+                otherwise & 3 \\ \hline
+            \end{tabular}
+            \caption{Forwarding Table}
+        \end{table}
+        
+    \item[(b)]
+        
+        11001000 10010001 01010001 01010101 doesn't match any prefix in destination address range, so the packet would be sent to Link 3.
+
+        11100001 01000000 11000011 00111100 matches matches the prefix of Link 1 longer than Link 2, so the packet would be sent to Link 1.
+
+        11100001 10000000 00010001 01110111 doesn't matches any prefix in destination address range, so the packet would be sent to Link 3.
+        
+\end{enumerate}
+
+\section*{Problem 2}    
+
+\begin{enumerate}
+    \item [(a)] 
+
+    \item[(b)]
+    
+
+\end{enumerate}
+
+\section*{Problem 3}    
+
+\begin{enumerate}
+    \item [(a)] 
+        
+
+    \item[(b)]
+        
+
+\end{enumerate}
+
+\section*{Problem 4}
+
+\begin{enumerate}
+    \item [(a)] 
+        
+    \item[(b)]
+       
+    
+\end{enumerate}
+
+\section*{Problem 5}
+
+\section*{Problem 6}
+
+\section*{Problem 7}
+
+\begin{enumerate}
+    \item [(a)] 
+        
+    \item[(b)]
+        
+    \item[(c)]
+        
+    \item[(d)]
+        
+
+\end{enumerate}
+
+\section*{Problem 8}
+
+\begin{enumerate}
+    \item [(a)] 
+        The time it costs from the source host to the first packet switch is
+        \[
+            d_{1} = \frac{8\cdot 10^{6}}{2\cdot 10^{6}} = 4 \text{ sec}
+        \]
+        Since each switch uses store-and-forward packet switching, the message start transmitting after the last bit of the message arrived.
+        Every link costs $d_{1}$ sec to transmit the message.
+        Hence, the total time cost is $3d_{1} = 12$ sec.
+    \item[(b)]
+        The time cost from the source host to the first packet switch is 
+        \[
+            d_{1} = \frac{10^{4}}{2\cdot 10^{6}} = 5\cdot 10^{-3} \text{ sec}
+        \]
+        The second packet is being sent from the source host to the first switch while the first packet is being sent from the first switch to the second switch.
+        The second packet has the size 10000 bits. The transmit rate is $2\cdot 10^{6}$ bps.
+        Hence the time cost is
+        \[
+            d = d_{1} + \frac{10^{4}}{2\cdot 10^{6}} = 10^{-3} \text{ sec}
+        \]
+        After $10^{-3}$ sec, the second packet is fully received at the first switch.
+    \item[(c)]
+        Each packet from a switch to the next switch cost $d = \frac{10^{4}}{2\cdot 10^{6}} = 5\cdot 10^{-3}$ sec.
+        By (b). we know that we can send packet from the source host to the first switch and from the first switch to the second switch simultaneously.
+        \\
+        Hence, when $t = 2d$, the first packet arrived the second switch, and the second packet arrived the first switch.
+        \\
+        When $t = 3d$, the first packet arrived the destination, the second packet arrived the second switch, and the third packet arrived the first switch.
+        Then we can observe that the first packet cost $3d$ and the second packet will soon arrive destination after $d$ sec.
+        \\
+        The total time cost is 
+        \[
+            d_{total} = 3d + d\cdot(800-1) = 802\cdot 5\cdot 10^{-3} = 4.01 \text{ sec}
+        \]
+        To compare the result of (a)., (c). has reserved about 8 sec in transmitting. The reason is because in (a)., we need to wait until the last bit of the data arrived, the first bit can start being transmitted to the next switch.
+        But in (c)., the first packet didn't need to wait the second packet, which reserved the delay in waiting all data transmitted completely.
+    \item[(d)]
+        We can avoid congestion when transmitting. If we don't use message segmentation, the switch needs 4 sec to send a data in this example, if there is another data which is sent to this switch in 4 sec. The data would stay at input queue.
+        If there are too much data transmitted from other switches, data loss would happen. If we use message segmentation, we can divided the data into several packets, and send them to different switch to transmit, so that each packet would not cost too long in transmitting.
+        The congestion might not happen.
+
+\end{enumerate}
+
+\end{document}
