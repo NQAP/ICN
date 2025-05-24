@@ -1,0 +1,176 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{interval}
+\usepackage{amssymb}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{ICN Written Assignment 1}
+\author{Student ID: b10201054}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+\begin{enumerate}
+    \item [(a)] 
+        I think circuit-switched network would be more appropriate for this application.
+
+        First, when the application starts, it will continue running for a relatively long period of time. Hence, once we build the circuit-switched chain, the chain would be used for a relatively long time.
+        The delay of buiding chain would be only counted once.
+
+        Another advantage of circuit-switched network is to avoid data loss. Once we build the chain, the data will less loss than packet-switched network since there is a dedicated route for data to transmit.
+        
+        Last, since we need to transmit data in a high frequency and fixed size, Once the route is built, the space won't be idle.
+        
+    \item[(b)]
+        No. Since the sum of the application data rates is less than the capacities of each and every link, the maximum rate would not overload.
+        Hence, there would be no congestion happened so that we don't need the congestion control.
+\end{enumerate}
+
+\section*{Problem 2}    
+
+\begin{enumerate}
+    \item [(a)] 
+        $d_{prop} = \frac{m}{s} $ sec
+    \item[(b)]
+        $d_{trans} = \frac{L}{R}$ sec
+    \item[(c)]
+        $d_{nodal} = d_{prop} + d_{trans} = \frac{m}{s} + \frac{L}{R}$
+    \item[(d)]
+        At time $t = d_{trans}$, the last bit of the packet has just been sent, so it's on the way to Host B.
+    \item[(e)]
+        The first bit of the packet needs $d_{prop}$ time to arrive Host B.
+        At time $t = d_{trans}$, since $d_{prop}$ is greater than $d_{trans}$, the first data is on the way to Host B at $s\times d_{trans}$ meters.
+    \item[(f)]
+        The first bit of the packet needs $d_{prop}$ time to arrive Host B.
+        At time $t = d_{trans}$, since $d_{prop}$ is less than $d_{trans}$, the first data is at Host B.
+    \item[(g)] 
+        $d_{trans} = \frac{120}{56\cdot 10^{3}} = \frac{m}{2.5\cdot  10^{8}} = d_{prop} \Rightarrow m = \frac{3\cdot 10^{7}}{56} = 5.3\overline{571428}\cdot 10^{7}$ meters.
+
+\end{enumerate}
+
+\section*{Problem 3}    
+
+\begin{enumerate}
+    \item [(a)] 
+        Consider the delay in first link and second link: 
+        \\
+        First link : $d_1 = \frac{L}{R_s}$
+        \\
+        Second link : $d_2 = \frac{L}{R_c}$
+        \\
+        The last bit of the first packet arrived the client at $t = d_1 + d_2 + 2d_{prop}$.
+        \\
+        The last bit of the second packet arrived the client at $t = d_1 + d_2 + \max(d_1, d_2) + 2d_{prop}$.
+        \\
+        Hence the time elapses from when the last bit of the first packet arrives until the last bit of the second packet arrives is $\max(d_1, d_2) = \frac{L}{\min(R_s, R_c)}$.
+    \item[(b)]
+        Yes.
+        \\
+        Since $R_s > R_c$, the input rate is greater than the output rate of the router.
+        Consider the delay in first link and second link: 
+        \\
+        First link : $d_1 = \frac{L}{R_s}$
+        \\
+        Second link : $d_2 = \frac{L}{R_c}$
+        \\
+        The last bit of the second packet arrived at $t = \frac{2L}{R_s} + d_{prop}$ while the last bit of the first packet left at $t = \frac{L}{R_s} + \frac{L}{R_c} + d_{prop}$.
+        It means the router has not sent all the first packet yet, which implies that the second packet need to wait until the first packet has been sent completely.
+    \item[(c)]
+        If we want to ensure no queuing before second link, by the (b) we know that the last bit of the first packet left at $t = \frac{L}{R_s} + \frac{L}{R_c} + d_{prop}$, the last bit of the second packet must arrive after $t = \frac{L}{R_s} + \frac{L}{R_c} + d_{prop}$ so that the router can transmit it immediately.
+        Suppose that the server sends the second packet T seconds after sending the first packet, the last bit of the second packet arrives at $t = T + \frac{2L}{R_s} + d_{prop}$.
+        \\
+        Hence we want
+        \[
+            T + \frac{2L}{R_s} + d_{prop} \geq \frac{L}{R_s} + \frac{L}{R_c} + d_{prop}
+        \]
+        It gives us $T \geq \frac{L}{R_c} - \frac{L}{R_s}$
+
+\end{enumerate}
+
+\section*{Problem 4}
+
+\begin{enumerate}
+    \item [(a)] 
+        \[
+            d_{prop} = \frac{2\cdot 10^{7}}{2.5\cdot 10^{8}} = \frac{2}{25} = 8\cdot 10^{-2} \text{ sec}
+        \]
+        \[
+            R\cdot d_{prop} = 2\cdot 10^{6} \cot 8\cdot 10^{-2} = 1.6\cdot 10^{5} \text{ bits}
+        \]
+    \item[(b)]
+        The link cost $d_{prop} = 0.08$ sec to send the first bit of the data from the Host A to the Host B.
+        When the first bit of the data arrives Host B, the link has sent $2M\cdot 0.08 = 1.6\cdot 10^{5}$ bits size data.
+        Since the file we want to send is of the size 800,000 bits, which is larger than $1.6\cdot 10^{5}$, there are at most $1.6\cdot 10^{5}$ bits in the link at the same time.
+    \item[(c)]
+        The bandwidth-delay product means the maximum number of bits that will be in the link at any given time, it also can be known as "the maximum data size that has been transmitted but still not been confirmed by the receiver".
+    \item[(d)]
+        The width of a bit is given by
+        \[
+            width = \frac{2\cdot 10^{7}}{1.6\cdot 10^{5}} = 125 \text{ meters}
+        \]
+    \item[(e)]
+        \[
+            d_{prop} = \frac{D}{S}
+        \]
+        The bandwidth-delay product = $R\cdot d_{prop} = \frac{R\cdot D}{S}$
+        \\
+        The width of a bit is given by
+        \[
+            \frac{D}{\text{bandwidth-delay product}} = \frac{D}{\frac{R\cdot D}{S}} = \frac{S}{R}
+        \]
+\end{enumerate}
+
+\section*{Problem 5}
+
+\begin{enumerate}
+    \item [(a)] 
+        The time it costs from the source host to the first packet switch is
+        \[
+            d_{1} = \frac{8\cdot 10^{6}}{2\cdot 10^{6}} = 4 \text{ sec}
+        \]
+        Since each switch uses store-and-forward packet switching, the message start transmitting after the last bit of the message arrived.
+        Every link costs $d_{1}$ sec to transmit the message.
+        Hence, the total time cost is $3d_{1} = 12$ sec.
+    \item[(b)]
+        The time cost from the source host to the first packet switch is 
+        \[
+            d_{1} = \frac{10^{4}}{2\cdot 10^{6}} = 5\cdot 10^{-3} \text{ sec}
+        \]
+        The second packet is being sent from the source host to the first switch while the first packet is being sent from the first switch to the second switch.
+        The second packet has the size 10000 bits. The transmit rate is $2\cdot 10^{6}$ bps.
+        Hence the time cost is
+        \[
+            d = d_{1} + \frac{10^{4}}{2\cdot 10^{6}} = 10^{-3} \text{ sec}
+        \]
+        After $10^{-3}$ sec, the second packet is fully received at the first switch.
+    \item[(c)]
+        Each packet from a switch to the next switch cost $d = \frac{10^{4}}{2\cdot 10^{6}} = 5\cdot 10^{-3}$ sec.
+        By (b). we know that we can send packet from the source host to the first switch and from the first switch to the second switch simultaneously.
+        \\
+        Hence, when $t = 2d$, the first packet arrived the second switch, and the second packet arrived the first switch.
+        \\
+        When $t = 3d$, the first packet arrived the destination, the second packet arrived the second switch, and the third packet arrived the first switch.
+        Then we can observe that the first packet cost $3d$ and the second packet will soon arrive destination after $d$ sec.
+        \\
+        The total time cost is 
+        \[
+            d_{total} = 3d + d\cdot(800-1) = 802\cdot 5\cdot 10^{-3} = 4.01 \text{ sec}
+        \]
+        To compare the result of (a)., (c). has reserved about 8 sec in transmitting. The reason is because in (a)., we need to wait until the last bit of the data arrived, the first bit can start being transmitted to the next switch.
+        But in (c)., the first packet didn't need to wait the second packet, which reserved the delay in waiting all data transmitted completely.
+    \item[(d)]
+        We can avoid congestion when transmitting. If we don't use message segmentation, the switch needs 4 sec to send a data in this example, if there is another data which is sent to this switch in 4 sec. The data would stay at input queue.
+        If there are too much data transmitted from other switches, data loss would happen. If we use message segmentation, we can divided the data into several packets, and send them to different switch to transmit, so that each packet would not cost too long in transmitting.
+        The congestion might not happen.
+    \item[(e)]
+        Once we use message segmentation, we need to use some space to tell the router where is the destination of the packet.
+        Another drawback is to deal with the packet, since the packet would not go through the same way, the packet arrived in the same order we sent.
+        Hence, we have extra cost to make the segmentation become the full data with the origin permutation.
+\end{enumerate}
+
+\end{document}
