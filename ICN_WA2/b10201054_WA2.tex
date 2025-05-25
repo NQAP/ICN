@@ -4,6 +4,7 @@
 \usepackage{bm}
 \usepackage{interval}
 \usepackage{amssymb}
+\usepackage{makecell}
 \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
@@ -54,6 +55,7 @@
         Subnet D: 214.97.254.0/31 \\
         Subnet E: 214.97.254.2/31 \\
         Subnet F: 214.97.254.4/30
+    \newpage
     \item[(b)]
         Forwarding table:
         \begin{table}[!ht]
@@ -122,7 +124,21 @@
     
 \end{enumerate}
 
+\newpage
+
 \section*{Problem 5}
+Flow table for s2:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+        match & action \\ \hline
+        \makecell{ingressport = 1 \\ IP Src = 10.3.0.* \\ IP Dst = 10.1.0.*} & forward port (2) \\ \hline
+        \makecell{ingressport = 2 \\ IP src = 10.1.0.* \\ IP dst = 10.3.0.*} & forward port (1) \\ \hline
+        IP dst = 10.2.0.3 & forward port (3) \\ \hline
+        IP dst = 10.2.0.4 & forward port (4) \\ \hline
+    \end{tabular}
+\end{table}
 
 \section*{Problem 6}
 Dijkstra's algorithm table:
@@ -131,12 +147,12 @@ Dijkstra's algorithm table:
     \begin{tabular}{|l|l|l|l|l|l|l|l|}
     \hline
         step & N' & D(t), p(t) & D(u), p(u) & D(v), p(v) & D(w), p(w) & D(y), p(y) & D(z),p(z) \\ \hline
-        0 & x & $\infty$ & $\infty$ & 3,x & 6,x & 6,x & 6,x \\ \hline
-        1 & xv & 7,v & 6,v & - & 6,x & 6,x & 6,x \\ \hline
-        2 & xvw & 7,v & 6,v & - & - & 6,x & 6,x \\ \hline
-        3 & xvwy & 7,v & 6,v & - & - & - & 6,x \\ \hline
-        4 & xvwyz & 7,v & 6,v & - & - & - & - \\ \hline
-        5 & xvwyzu & 7,v & - & - & - & - & - \\ \hline
+        0 & x & $\infty$ & $\infty$ & 3,x & 6,x & 6,x & 8,x \\ \hline
+        1 & xv & 7,v & 6,v & - & 6,x & 6,x & 8,x \\ \hline
+        2 & xvw & 7,v & 6,v & - & - & 6,x & 8,x \\ \hline
+        3 & xvwy & 7,v & 6,v & - & - & - & 8,x \\ \hline
+        4 & xvwyv & 7,v & - & - & - & - & 8,x \\ \hline
+        5 & xvwyvt & - & - & - & - & - & 8,x \\ \hline
         6 & xvwyzut & - & - & - & - & - & - \\ \hline
     \end{tabular}
     \caption{Dijkstra's algorithm table}
@@ -155,48 +171,19 @@ Dijkstra's algorithm table:
         
 \end{enumerate}
 
+\newpage
+
 \section*{Problem 8}
 
 \begin{enumerate}
     \item [(a)] 
-        The time it costs from the source host to the first packet switch is
-        \[
-            d_{1} = \frac{8\cdot 10^{6}}{2\cdot 10^{6}} = 4 \text{ sec}
-        \]
-        Since each switch uses store-and-forward packet switching, the message start transmitting after the last bit of the message arrived.
-        Every link costs $d_{1}$ sec to transmit the message.
-        Hence, the total time cost is $3d_{1} = 12$ sec.
+        eBGP
     \item[(b)]
-        The time cost from the source host to the first packet switch is 
-        \[
-            d_{1} = \frac{10^{4}}{2\cdot 10^{6}} = 5\cdot 10^{-3} \text{ sec}
-        \]
-        The second packet is being sent from the source host to the first switch while the first packet is being sent from the first switch to the second switch.
-        The second packet has the size 10000 bits. The transmit rate is $2\cdot 10^{6}$ bps.
-        Hence the time cost is
-        \[
-            d = d_{1} + \frac{10^{4}}{2\cdot 10^{6}} = 10^{-3} \text{ sec}
-        \]
-        After $10^{-3}$ sec, the second packet is fully received at the first switch.
+        iBGP
     \item[(c)]
-        Each packet from a switch to the next switch cost $d = \frac{10^{4}}{2\cdot 10^{6}} = 5\cdot 10^{-3}$ sec.
-        By (b). we know that we can send packet from the source host to the first switch and from the first switch to the second switch simultaneously.
-        \\
-        Hence, when $t = 2d$, the first packet arrived the second switch, and the second packet arrived the first switch.
-        \\
-        When $t = 3d$, the first packet arrived the destination, the second packet arrived the second switch, and the third packet arrived the first switch.
-        Then we can observe that the first packet cost $3d$ and the second packet will soon arrive destination after $d$ sec.
-        \\
-        The total time cost is 
-        \[
-            d_{total} = 3d + d\cdot(800-1) = 802\cdot 5\cdot 10^{-3} = 4.01 \text{ sec}
-        \]
-        To compare the result of (a)., (c). has reserved about 8 sec in transmitting. The reason is because in (a)., we need to wait until the last bit of the data arrived, the first bit can start being transmitted to the next switch.
-        But in (c)., the first packet didn't need to wait the second packet, which reserved the delay in waiting all data transmitted completely.
+        eBGP
     \item[(d)]
-        We can avoid congestion when transmitting. If we don't use message segmentation, the switch needs 4 sec to send a data in this example, if there is another data which is sent to this switch in 4 sec. The data would stay at input queue.
-        If there are too much data transmitted from other switches, data loss would happen. If we use message segmentation, we can divided the data into several packets, and send them to different switch to transmit, so that each packet would not cost too long in transmitting.
-        The congestion might not happen.
+        iBGP
 
 \end{enumerate}
 
