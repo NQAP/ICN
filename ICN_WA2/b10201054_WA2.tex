@@ -46,9 +46,51 @@
 
 \begin{enumerate}
     \item [(a)] 
-
+        214.97.254/23 to 32-bit binary is 11010110 01100001 11111110 ********.\\
+        The first 23 bits is the subnet part, so we can only use the last 9 digits.\\
+        Subnet A: 214.97.255/24
+        Subnet B: 214.97.254.0/25 - 214.97.254.0/29 \\
+        Subnet C: 214.97.254.128/25 \\
+        Subnet D: 214.97.254.0/31 \\
+        Subnet E: 214.97.254.2/31 \\
+        Subnet F: 214.97.254.4/30
     \item[(b)]
-    
+        Forwarding table:
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|l|l|}
+            \hline
+                Longest Prefix Match & Outgoing Interface \\ \hline
+                11010110 01100001 11111111 & A \\ \hline
+                11010110 01100001 11111110 0000000 & D \\ \hline
+                11010110 01100001 11111110 000001  & F \\ \hline
+            \end{tabular}
+            \caption{Router 1 Forwarding Table}
+        \end{table}
+
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|l|l|}
+            \hline
+                Longest Prefix Match & Outgoing Interface \\ \hline
+                11010110 01100001 11111110 1 & C \\ \hline
+                11010110 01100001 11111110 0000001 & E \\ \hline
+                11010110 01100001 11111110 000001  & F \\ \hline
+            \end{tabular}
+            \caption{Router 2 Forwarding Table}
+        \end{table}
+
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|l|l|}
+            \hline
+                Longest Prefix Match & Outgoing Interface \\ \hline
+                11010110 01100001 11111110 0 & B \\ \hline
+                11010110 01100001 11111110 0000000 & D \\ \hline
+                11010110 01100001 11111110 0000001  & E \\ \hline
+            \end{tabular}
+            \caption{Router 3 Forwarding Table}
+        \end{table}
 
 \end{enumerate}
 
@@ -56,10 +98,15 @@
 
 \begin{enumerate}
     \item [(a)] 
-        
+        The header of each packet has 20 bytes, MTU = 700 bytes means for each packet we have header 20 + content 680 bytes.
+        Then the 2400 bytes datagram = header 20 + content 2380.
+        The link will cut the datagram in 680, 680, 680, 340 four fragments.
 
     \item[(b)]
-        
+        Identification: 1 1 1 1
+        fragflag: 1 1 1 0
+        fragment offset: 0 85 170 255
+        length: 700 700 700 360
 
 \end{enumerate}
 
@@ -67,16 +114,33 @@
 
 \begin{enumerate}
     \item [(a)] 
-        
+        We can record all packets sent from the NAT, since the hosts send the packet with sequencial numbers and a random initial ID number, we can group the consecutive ID number to a cluster.
+        Then we can find the initial number of the cluster. The number of cluster means the number of distinct initial number, so we will know the number of host through the distinct initial ID number. 
     \item[(b)]
-       
+        The technique used in (a) is based on the sequencial number. Because of the sequencial assigned number, we can find the initial ID number in technique (a).
+        If the ID number is randomly assigned, we cannot find the assigned rule of the ID number. Hence, we cannot know which number is the initial ID number of the host.
     
 \end{enumerate}
 
 \section*{Problem 5}
 
 \section*{Problem 6}
-
+Dijkstra's algorithm table:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|}
+    \hline
+        step & N' & D(t), p(t) & D(u), p(u) & D(v), p(v) & D(w), p(w) & D(y), p(y) & D(z),p(z) \\ \hline
+        0 & x & $\infty$ & $\infty$ & 3,x & 6,x & 6,x & 6,x \\ \hline
+        1 & xv & 7,v & 6,v & - & 6,x & 6,x & 6,x \\ \hline
+        2 & xvw & 7,v & 6,v & - & - & 6,x & 6,x \\ \hline
+        3 & xvwy & 7,v & 6,v & - & - & - & 6,x \\ \hline
+        4 & xvwyz & 7,v & 6,v & - & - & - & - \\ \hline
+        5 & xvwyzu & 7,v & - & - & - & - & - \\ \hline
+        6 & xvwyzut & - & - & - & - & - & - \\ \hline
+    \end{tabular}
+    \caption{Dijkstra's algorithm table}
+\end{table}
 \section*{Problem 7}
 
 \begin{enumerate}
