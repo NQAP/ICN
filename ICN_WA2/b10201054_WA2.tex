@@ -145,14 +145,14 @@ Dijkstra's algorithm table:
 
 \begin{enumerate}
     \item [(a)] 
-        
+        $D_{x}(w) = 2, D_{x}(y) = 4, D_{x}(u) = 7$
     \item[(b)]
-        
+        $D_{x}(u) = \min((c(x,w) + D_{w}(u)), (c(x,y) + D_{y}(u)))$ If $c(x,w)$ changes to 1, $D_{x}(u) = \min(1+5, 3+6) = 6 < 7$.
+        Then x will inform its neighbors of a new minimum-cost path to u.
     \item[(c)]
+        $D_{x}(u) = \min((c(x,w) + D_{w}(u)), (c(x,y) + D_{y}(u)))$ If $c(x,y)$ changes to 5, $D_{x}(u) = \min(2+5, 5+6) = 7 = 7$.
+        Then x will not inform its neighbors of a new minimum-cost path to u since the distance-vector did not change.
         
-    \item[(d)]
-        
-
 \end{enumerate}
 
 \section*{Problem 8}
